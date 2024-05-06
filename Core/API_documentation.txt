@@ -1,0 +1,303 @@
+
+1. For user Registration
+     url - /api/signup/
+     request type - POST
+
+     body - {
+     "username" : "test1",
+     "email" : "test1@gmail.com",
+     "password" : 12345
+     }
+
+     response: {
+     "msg": "Account Created successfully",
+     "username": "test1",
+     "email": "test1@gmail.com"
+     } 
+
+2. User Login 
+     url - /api/login/
+     request type - POST
+     body - {
+          "email":"test1@gmail.com",
+          "password": 12345
+          }
+     
+     response - {
+        "user": "test1@gmail.com",
+        "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1MDAxNjk3LCJpYXQiOjE3MTQ5ODM2OTcsImp0aSI6ImYyMjE2YzM5NGRmZTQ4Y2M5Y2YxM2YwNDkwYTk4MTU3IiwidXNlcl9pZCI6Mn0.MqbQ3oDLxP09vIzqdxoMbZK1odQdQOD7Kb7ewcZOlfs",
+        "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcxNTA3MDA5NywiaWF0IjoxNzE0OTgzNjk3LCJqdGkiOiJlZWFmNzVlM2RmZTk0YTI3OGQ2NjY3ODRlMDI5NzI1MSIsInVzZXJfaWQiOjJ9.dZGXhe88E0V_kuVfg1Zy0tzHMF54aJ0UaHJFRjYMP-E"
+     }
+
+3. Get all the Vendor Details 
+
+    url - /api/vendors/
+    request type - GET   
+    header - {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5ODExNjI3LCJpYXQiOjE3MDk4MDU2MjcsImp0aSI6IjViNTBmMzI2YTg4MTRlNmY5N2YzYmVlYzY2Zjg4MGUwIiwidXNlcl9pZCI6M30.RoAhASmqKzs9WbBAS8r-pbq7bIiVBn2eo4_n4vpWZj0"
+     }
+
+     response - {
+        "success": [
+                    {
+                    "vendor_code": "apYscvscZDip9aZsh3w3q2",
+                    "name": "Vivek",
+                    "contact_details": "0123456789",
+                    "address": "",
+                    "on_time_delivery_rate": 0.0,
+                    "quality_rating_avg": 0.0,
+                    "average_response_time": 0.0,
+                    "fulfillment_rate": 0.0
+                    },
+                    {
+                    "vendor_code": "jMdaX4pLZDhQZDHTRGQJ2i",
+                    "name": "Swagger Kumar",
+                    "contact_details": "789564854",
+                    "address": "Ranchi",
+                    "on_time_delivery_rate": 0.0,
+                    "quality_rating_avg": 0.0,
+                    "average_response_time": 0.0,
+                    "fulfillment_rate": 0.0
+                    }
+                ]
+     }
+
+4. Create a Vendor 
+
+    url - /api/vendors/
+    request type - POST    
+    header - {
+            "Content-Type": "application/json"
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5ODExNjI3LCJpYXQiOjE3MDk4MDU2MjcsImp0aSI6IjViNTBmMzI2YTg4MTRlNmY5N2YzYmVlYzY2Zjg4MGUwIiwidXNlcl9pZCI6M30.RoAhASmqKzs9WbBAS8r-pbq7bIiVBn2eo4_n4vpWZj0"
+     }
+     
+     body - {     
+        "name" : "abcd",
+        "contact_details" : "1223456789",
+        "address" : "Ranchi"
+        }
+    
+    response - {
+        "success": {
+            "name": "abcd",
+            "contact_details": "1223456789",
+            "address": "Ranchi"
+        }
+    }
+
+5. Get the details of a perticular Vendor By ID 
+
+    url - /api/vendors/{vendor_id}/
+    request type - GET 
+
+    header - {
+            "Content-Type": "application/json"
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5ODExNjI3LCJpYXQiOjE3MDk4MDU2MjcsImp0aSI6IjViNTBmMzI2YTg4MTRlNmY5N2YzYmVlYzY2Zjg4MGUwIiwidXNlcl9pZCI6M30.RoAhASmqKzs9WbBAS8r-pbq7bIiVBn2eo4_n4vpWZj0"
+     }
+
+     response - {     
+        "success": {
+                    "vendor_code": "jMdaX4pLZDhQZDHTRGQJ2i",
+                    "name": "Swagger Kumar",
+                    "contact_details": "789564854",
+                    "address": "Ranchi",
+                    "on_time_delivery_rate": 0.0,
+                    "quality_rating_avg": 0.0,
+                    "average_response_time": 0.0,
+                    "fulfillment_rate": 0.0
+                } 
+     }
+
+6.  Update Vendor by ID
+    url - /api/vendors/{vendor_id}/
+    request type - PUT 
+
+    header - {
+            "Content-Type": "application/json"
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5ODExNjI3LCJpYXQiOjE3MDk4MDU2MjcsImp0aSI6IjViNTBmMzI2YTg4MTRlNmY5N2YzYmVlYzY2Zjg4MGUwIiwidXNlcl9pZCI6M30.RoAhASmqKzs9WbBAS8r-pbq7bIiVBn2eo4_n4vpWZj0"
+     }
+
+    response - {   
+        "success": {
+            "vendor_code": "jMdaX4pLZDhQZDHTRGQJ2i",
+            "name": "pappu kumar",
+            "contact_details": "789564854",
+            "address": "Ranchi",
+            "on_time_delivery_rate": 0.0,
+            "quality_rating_avg": 0.0,
+            "average_response_time": 0.0,
+            "fulfillment_rate": 0.0
+        }
+    }
+
+7. Delete Vendor by ID
+
+    url - /api/vendors/{vendor_id}/
+    request type - DELETE  
+
+    header - {
+            "Content-Type": "application/json"
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5ODExNjI3LCJpYXQiOjE3MDk4MDU2MjcsImp0aSI6IjViNTBmMzI2YTg4MTRlNmY5N2YzYmVlYzY2Zjg4MGUwIiwidXNlcl9pZCI6M30.RoAhASmqKzs9WbBAS8r-pbq7bIiVBn2eo4_n4vpWZj0"
+    }
+
+    response - {   
+        "success": "Succssfully Deleted."
+    }
+
+8. Get the performance Details of a Perticular Vendor (by ID )
+    url - /api/vendors/{vendor_id}/performance/
+    request type - GET  
+
+    header - {
+            "Content-Type": "application/json"
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5ODExNjI3LCJpYXQiOjE3MDk4MDU2MjcsImp0aSI6IjViNTBmMzI2YTg4MTRlNmY5N2YzYmVlYzY2Zjg4MGUwIiwidXNlcl9pZCI6M30.RoAhASmqKzs9WbBAS8r-pbq7bIiVBn2eo4_n4vpWZj0"
+    }
+    
+    response - {
+        "success": {
+                "on_time_delivery_rate": 0.0,
+                "quality_rating_avg": 0.0,
+                "average_response_time": 0.0,
+                "fulfillment_rate": 0.0
+            }
+    }
+
+8. Get all the purchase order list 
+    url - /api/purchase_orders/
+    request type - GET  
+
+    header - {
+            "Content-Type": "application/json"
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5ODExNjI3LCJpYXQiOjE3MDk4MDU2MjcsImp0aSI6IjViNTBmMzI2YTg4MTRlNmY5N2YzYmVlYzY2Zjg4MGUwIiwidXNlcl9pZCI6M30.RoAhASmqKzs9WbBAS8r-pbq7bIiVBn2eo4_n4vpWZj0"
+    }
+    
+    response - { 
+        "success": [
+                    {
+                    "po_number": "E2jDwYyE2FntAZKRyqN7kB",
+                    "items": {
+                        "Bage": 1
+                    },
+                    "quantity": 1,
+                    "status": "pending",
+                    "quality_rating": 0.0,
+                    "order_date": "2024-05-06T11:15:33.786649Z",
+                    "issue_date": "2024-05-06T11:15:33.786649Z",
+                    "acknowledgement_date": null,
+                    "expected_delivery_date": null,
+                    "delivery_date": null,
+                    "vendor": "jMdaX4pLZDhQZDHTRGQJ2i"
+                    }
+                ]
+    }
+
+9. Create a purchase order 
+
+    url - /api/purchase_orders/
+    request type - POST  
+
+    header - {
+            "Content-Type": "application/json"
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5ODExNjI3LCJpYXQiOjE3MDk4MDU2MjcsImp0aSI6IjViNTBmMzI2YTg4MTRlNmY5N2YzYmVlYzY2Zjg4MGUwIiwidXNlcl9pZCI6M30.RoAhASmqKzs9WbBAS8r-pbq7bIiVBn2eo4_n4vpWZj0"
+    }
+
+    response - {
+           "success": "Purchase Order placed successfully"
+    }
+
+10. Get the purchae order of a perticular ID 
+
+    url - api/purchase_orders/{po_id}
+    request type - POST  
+
+    header - {
+            "Content-Type": "application/json"
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5ODExNjI3LCJpYXQiOjE3MDk4MDU2MjcsImp0aSI6IjViNTBmMzI2YTg4MTRlNmY5N2YzYmVlYzY2Zjg4MGUwIiwidXNlcl9pZCI6M30.RoAhASmqKzs9WbBAS8r-pbq7bIiVBn2eo4_n4vpWZj0"
+    }
+    
+    response - {     
+        "success": {
+            "po_number": "E2jDwYyE2FntAZKRyqN7kB",
+            "items": {
+            "Bage": 1
+            },
+            "quantity": 1,
+            "status": "pending",
+            "quality_rating": 0.0,
+            "order_date": "2024-05-06T11:15:33.786649Z",
+            "issue_date": "2024-05-06T11:15:33.786649Z",
+            "acknowledgement_date": null,
+            "expected_delivery_date": null,
+            "delivery_date": null,
+            "vendor": "jMdaX4pLZDhQZDHTRGQJ2i"
+        }
+    }
+
+
+11. Update Purchase order by ID
+    url - api/purchase_orders/{po_id}
+    request type - PUT  
+
+    This the most crucial method because we perform the following updates 
+    a> Update the purchase items and quantity
+        body - {
+            "items": { "Bike" : 1 },
+            "quantity" : 1,
+        }
+
+    b> Changes the status of the of the purchase order
+        body - {
+               "status" : "completed"
+        }
+
+    c> Acknowledge the purchase order and provide the acknowledgement_date (sn.13)
+
+    response - {
+        "success": {
+                "po_number": "E2jDwYyE2FntAZKRyqN7kB",
+                "items": {
+                "Bike": 1
+                },
+                "quantity": 1,
+                "status": "pending",
+                "quality_rating": 0.0,
+                "order_date": "2024-05-06T11:15:33.786649Z",
+                "issue_date": "2024-05-06T11:15:33.786649Z",
+                "acknowledgement_date": null,
+                "expected_delivery_date": null,
+                "delivery_date": null,
+                "vendor": "jMdaX4pLZDhQZDHTRGQJ2i"
+            }
+    }
+        
+12. Delete a Purchase Order 
+
+    url - api/purchase_orders/{po_id}
+    request type - DELETE 
+
+    header - {
+            "Content-Type": "application/json"
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5ODExNjI3LCJpYXQiOjE3MDk4MDU2MjcsImp0aSI6IjViNTBmMzI2YTg4MTRlNmY5N2YzYmVlYzY2Zjg4MGUwIiwidXNlcl9pZCI6M30.RoAhASmqKzs9WbBAS8r-pbq7bIiVBn2eo4_n4vpWZj0"
+    }
+
+    response - {
+          "success": "Succssfully Deleted."
+    }
+
+13. Acknowledge a purchase order
+
+    url - api/purchase_orders/{po_id}/acknowledge/
+    request type - DELETE
+
+    header - {
+            "Content-Type": "application/json"
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA5ODExNjI3LCJpYXQiOjE3MDk4MDU2MjcsImp0aSI6IjViNTBmMzI2YTg4MTRlNmY5N2YzYmVlYzY2Zjg4MGUwIiwidXNlcl9pZCI6M30.RoAhASmqKzs9WbBAS8r-pbq7bIiVBn2eo4_n4vpWZj0"
+    }
+
+    body -{     
+        "expected_delivery_date" : "2024-05-04T02:12:50.710750Z"
+    }
+
+    response - {
+          "success": "Purchase order is acknowledge successfully"
+    }

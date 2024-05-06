@@ -1,4 +1,11 @@
 # Vendor_Management_System_Server
+(This project manages the vendors and all the purchase orders related to vendors.Any user can create a vendor and their assing a purchase order that particular vendor by their ID.)
+
+*************************************** IMPORTANT **************************************
+This backend project is hosted on Rendor.com( https://vendor-management-system-server.onrender.com )
+You can directly test the API's using Swagger API at ( https://vendor-management-system-server.onrender.com/api/schema/swagger/ )
+
+
 
     ---------------Steps to Run this Django App(for Windows)---------------
 
@@ -13,3 +20,4 @@
      in the requirements.txt file.
 9. Run "python manage.py makemigrations" and then  "python manage.py migrate"
 10. Now run "python manage.py runserver"
+

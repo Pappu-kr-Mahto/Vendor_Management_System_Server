@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from shortuuidfield import ShortUUIDField
 
-from django.db.models.signals import post_save, post_delete 
+from django.db.models.signals import post_save, post_delete, pre_delete 
 from django.dispatch import receiver
 from django.db.models import Avg, Count, F, Sum 
 
@@ -59,7 +59,7 @@ def calc_performance_matrix(sender, instance, **kwargs):
     print("Signals is working on Purchase Model")
 
     # Calculate on-time delivery rate
-    po_on_or_before = PurchaseOrder.objects.filter(vendor = instance.vendor,status='completed',delivery_date__lte=instance.expected_delivery_date).count()
+    po_on_or_before = PurchaseOrder.objects.filter(vendor = instance.vendor,status='completed',delivery_date__lte=F('expected_delivery_date')).count()
     total_orders = PurchaseOrder.objects.filter(vendor = instance.vendor , delivery_date__isnull=False,status='completed').count()
     if total_orders >0:
         vendor.on_time_delivery_rate = (po_on_or_before*100)/total_orders
@@ -90,9 +90,6 @@ def calc_performance_matrix(sender, instance, **kwargs):
     vendor.save()
 
 # Signal to make entry into VendorPerformance Model whenever any instance of Vendor model is deleted.
-@receiver(post_delete, sender=Vendor)
+@receiver(pre_delete, sender=Vendor)
 def store_historical_performance(sender, instance, **kwargs):
     VendorPerformance.objects.create(vendor=instance, on_time_delivery_rate= instance.on_time_delivery_rate, quality_rating_avg= instance.quality_rating_avg, average_response_time= instance.average_response_time, fulfillment_rate = instance.fulfillment_rate)
-
-    instance.save()
-

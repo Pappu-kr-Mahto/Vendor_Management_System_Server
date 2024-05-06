@@ -18,7 +18,7 @@ from drf_spectacular.utils import extend_schema
 # Create your views here.
 
 def home(request):
-    return HttpResponse("server is working")
+    return HttpResponse("<h1> Vendor Management System : Server is running.</h1> \\n For testing the API's visit (/api/schema/swagger/)")
 
 @extend_schema(
         request=UserSerializer,
@@ -118,11 +118,6 @@ class PurchaseOrderViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     http_method_names = ['get','post','put','delete']
 
-    # @extend_schema(
-    #     request=PurchaseOrderSerializer,
-    #     responses={200: None},
-    #     description="Enter the username, email, dob, password to create an account."
-    # )
     def list(self, request):
         vendor_param = request.GET.get('vendor')
         if vendor_param:
@@ -134,17 +129,22 @@ class PurchaseOrderViewSet(viewsets.ModelViewSet):
             return Response({'success': serializer.data},status=status.HTTP_200_OK)
 
     @extend_schema(
-        responses={200: None},
-        description=" Enter the items name and quantity and the vendor id"
+        responses={201: None},
+        description=" Enter the item names and quantity and the vendor id"
     )
     def create(self, request):
-        serializer = self.serializer_class(data= request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'success':'Purchase Order placed successfully'},status=status.HTTP_201_CREATED)
-        else:
-            return Response({'success':serializer.errors},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            
+        try:
+            serializer = self.serializer_class(data= request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'success':'Purchase Order placed successfully'},status=status.HTTP_201_CREATED)
+            else:
+                print(serializer.errors)
+                return Response({'error':serializer.errors},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as e:
+            print(e)
+            return Response({"error":'Internal server error'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
     def retrieve(self, request, pk=None):
         instance = self.get_object()
         serializer = self.serializer_class(instance)
@@ -164,6 +164,10 @@ class PurchaseOrderViewSet(viewsets.ModelViewSet):
         instance.delete()
         return Response({'success': 'Succssfully Deleted.'},status=status.HTTP_204_NO_CONTENT)
     
+    @extend_schema(
+        responses={200: None},
+        description="Only Enter the expected date of delivery."
+    )
     @action(detail=True, methods=["POST"], url_path=r'acknowledge')
     def acknowledge(self, request, pk=None):
         instance = self.get_object()
@@ -175,5 +179,5 @@ class PurchaseOrderViewSet(viewsets.ModelViewSet):
             instance.acknowledgement_date = datetime.now()
             instance.expected_delivery_date = data['expected_delivery_date']
             instance.save()
-            return Response({'success':"work"})
+            return Response({'success':"Purchase order is acknowledge successfully"})
     
