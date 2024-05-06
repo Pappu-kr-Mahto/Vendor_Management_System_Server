@@ -14,12 +14,17 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from datetime import datetime
+from drf_spectacular.utils import extend_schema
 # Create your views here.
 
 def home(request):
     return HttpResponse("server is working")
 
-
+@extend_schema(
+        request=UserSerializer,
+        responses={201: None},
+        description="Enter the username, email and password to create an account."
+    )
 @api_view(['POST'])
 def signup(request):
     try:
@@ -33,7 +38,11 @@ def signup(request):
     except Exception as e:
         return Response({"error":'Internal server Error'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
+@extend_schema(
+        request=LoginSerializer,
+        responses={200: None},
+        description="Enter the email and password for login. And do Authorization with the 'access key' given in response body in login."
+    )
 @api_view(['POST'])
 def login(request):
     try:
@@ -62,6 +71,7 @@ class VendorsViewSet(viewsets.ModelViewSet):
     queryset = Vendor.objects.all()
     serializer_class = VendorSerializer
     permission_classes = [IsAuthenticated]
+    http_method_names = ['get','post','put','delete']
 
     def list(self, request):
         serializer = self.serializer_class(self.queryset,many=True)
@@ -106,7 +116,13 @@ class PurchaseOrderViewSet(viewsets.ModelViewSet):
     queryset = PurchaseOrder.objects.all()
     serializer_class = PurchaseOrderSerializer
     permission_classes = [IsAuthenticated]
+    http_method_names = ['get','post','put','delete']
 
+    # @extend_schema(
+    #     request=PurchaseOrderSerializer,
+    #     responses={200: None},
+    #     description="Enter the username, email, dob, password to create an account."
+    # )
     def list(self, request):
         vendor_param = request.GET.get('vendor')
         if vendor_param:
@@ -117,6 +133,10 @@ class PurchaseOrderViewSet(viewsets.ModelViewSet):
             serializer = self.serializer_class(self.queryset,many=True)
             return Response({'success': serializer.data},status=status.HTTP_200_OK)
 
+    @extend_schema(
+        responses={200: None},
+        description=" Enter the items name and quantity and the vendor id"
+    )
     def create(self, request):
         serializer = self.serializer_class(data= request.data)
         if serializer.is_valid():

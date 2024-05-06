@@ -17,7 +17,10 @@ class UserSerializer(serializers.ModelSerializer):
         user=User.objects.create_user(username=validated_data['username'] , email=validated_data['email'],password=validated_data['password'])
         return validated_data
     
-
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+    
 class VendorSerializer(serializers.ModelSerializer):
     
      class Meta:
