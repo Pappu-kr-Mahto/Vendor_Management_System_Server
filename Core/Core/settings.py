@@ -159,5 +159,6 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:3000",
-    "https://vendor-management-system-server.onrender.com"
+    "https://vendor-management-system-server.onrender.com",
+    "https://vendor-management-system-tau.vercel.app",
 ]

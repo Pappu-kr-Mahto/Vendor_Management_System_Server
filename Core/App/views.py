@@ -74,7 +74,8 @@ class VendorsViewSet(viewsets.ModelViewSet):
     http_method_names = ['get','post','put','delete']
 
     def list(self, request):
-        serializer = self.serializer_class(self.queryset,many=True)
+        queryset = Vendor.objects.all()
+        serializer = self.serializer_class(queryset,many=True)
         return Response({'success': serializer.data},status=status.HTTP_200_OK)
 
     def create(self, request):
@@ -91,19 +92,18 @@ class VendorsViewSet(viewsets.ModelViewSet):
         return Response({'success': serializer.data},status=status.HTTP_200_OK)
     
     def update(self, request, pk=None):
-        print(pk)
         instance = self.get_object()
         serializer = self.serializer_class(instance=instance,data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response({'success': serializer.data},status=status.HTTP_200_OK)
         else:
-            return Response({'error',serializer.errors},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'error':serializer.errors},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     def destroy(self, request, pk=None):
         instance = self.get_object()
-        instance.delete()
-        return Response({'success': 'Succssfully Deleted.'},status=status.HTTP_204_NO_CONTENT)
+        self.perform_destroy(instance)
+        return Response({'success': "Succssfully Deleted.."},status=status.HTTP_200_OK)
     
     @action(detail=True, methods=["get"], url_path=r'performance')
     def performance(self, request, pk=None):
@@ -125,7 +125,8 @@ class PurchaseOrderViewSet(viewsets.ModelViewSet):
             serializer = self.serializer_class(queryset,many=True)
             return Response({'success': serializer.data},status=status.HTTP_200_OK)
         else:
-            serializer = self.serializer_class(self.queryset,many=True)
+            queryset = PurchaseOrder.objects.all()
+            serializer = self.serializer_class(queryset,many=True)
             return Response({'success': serializer.data},status=status.HTTP_200_OK)
 
     @extend_schema(
@@ -139,10 +140,8 @@ class PurchaseOrderViewSet(viewsets.ModelViewSet):
                 serializer.save()
                 return Response({'success':'Purchase Order placed successfully'},status=status.HTTP_201_CREATED)
             else:
-                print(serializer.errors)
                 return Response({'error':serializer.errors},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except Exception as e:
-            print(e)
             return Response({"error":'Internal server error'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
     def retrieve(self, request, pk=None):
@@ -161,8 +160,8 @@ class PurchaseOrderViewSet(viewsets.ModelViewSet):
     
     def destroy(self, request, pk=None):
         instance = self.get_object()
-        instance.delete()
-        return Response({'success': 'Succssfully Deleted.'},status=status.HTTP_204_NO_CONTENT)
+        self.perform_destroy(instance)
+        return Response({'success': 'Succssfully Deleted.'},status=status.HTTP_200_OK)
     
     @extend_schema(
         responses={200: None},
@@ -171,7 +170,6 @@ class PurchaseOrderViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["POST"], url_path=r'acknowledge')
     def acknowledge(self, request, pk=None):
         instance = self.get_object()
-        print(instance.order_date)
         data = request.data
         if 'expected_delivery_date' not in data.keys():
             return Response({'error':'Please provide the expected date of delivery'})
